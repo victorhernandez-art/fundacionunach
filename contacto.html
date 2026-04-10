@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contacta a Fundación UNACH – Teléfono, correo y formulario de contacto. Tuxtla Gutiérrez, Chiapas. También puedes realizar tu donación aquí." />
+  <title>Contacto – Fundación UNACH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Contact section — light bg ──────────────────────── */
+    #contacto {
+      padding: 100px 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(24,84,248,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 55% at 90% 80%, rgba(201,151,42,.09) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(46,125,82,.04) 0%, transparent 60%),
+        linear-gradient(160deg, #f8f9ff 0%, #eef2fd 30%, #fdf8ee 65%, #f0f7f3 100%);
+      position: relative; overflow: hidden;
+    }
+    #contacto .section-tag { color: var(--clr-primary); }
+    #contacto .section-tag::before { background: var(--clr-primary); }
+    #contacto .section-title { color: #0d1730; }
+    #contacto .grad-text {
+      background: linear-gradient(135deg, var(--clr-primary) 0%, #7c3aed 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    /* Subtle floating rings for depth */
+    #contacto::before {
+      content: '';
+      position: absolute; width: 480px; height: 480px; border-radius: 50%;
+      border: 1px solid rgba(24,84,248,.06); top: -140px; right: -140px;
+      animation: deco-spin 55s linear infinite; pointer-events: none;
+    }
+    #contacto::after {
+      content: '';
+      position: absolute; width: 260px; height: 260px; border-radius: 50%;
+      border: 1px dashed rgba(201,151,42,.1); bottom: -70px; left: 3%;
+      animation: deco-spin-r 38s linear infinite; pointer-events: none;
+    }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; position: relative; z-index: 1; }
+    .contact-info-cards { display: flex; flex-direction: column; gap: 14px; margin-top: 36px; }
+    .contact-info-card {
+      display: flex; gap: 16px; align-items: flex-start; padding: 22px 24px;
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(24,84,248,.12);
+      box-shadow: 0 4px 20px rgba(24,84,248,.07);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      transition: transform .3s var(--ease-out), box-shadow .3s;
+    }
+    .contact-info-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(24,84,248,.13); }
+    .c-icon {
+      width: 46px; height: 46px; flex-shrink: 0; border-radius: 12px;
+      background: rgba(24,84,248,.08); border: 1px solid rgba(24,84,248,.16);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .c-icon svg { width: 22px; height: 22px; stroke: var(--clr-primary); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .c-text h4 { font-size: .9rem; font-weight: 700; color: #0d1730; margin-bottom: 5px; }
+    .c-text p, .c-text a { font-size: .87rem; color: #4a5880; line-height: 1.6; transition: color .2s; }
+    .c-text a { font-weight: 600; color: var(--clr-primary); }
+    .c-text a:hover { color: #7c3aed; text-decoration: underline; }
+    /* Stretch left column to match form card height */
+    .contact-grid > div:first-child { display: flex; flex-direction: column; }
+    .contact-info-cards { flex: 1; }
+    .contact-info-card { flex: 1; }
+    .map-embed-full {
+      margin-top: 52px; border-radius: var(--radius-md); overflow: hidden;
+      border: 1px solid rgba(24,84,248,.12);
+      box-shadow: 0 4px 24px rgba(24,84,248,.09);
+      height: 380px;
+      position: relative; z-index: 1;
+    }
+    .map-embed-full iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    /* Form on light bg */
+    .contact-form { display: flex; flex-direction: column; gap: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-group label { font-size: .82rem; font-weight: 600; color: #2a3660; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding: 14px 18px; border-radius: var(--radius-sm);
+      border: 1px solid rgba(24,84,248,.18);
+      background: rgba(255,255,255,.85); color: #0d1730;
+      font-family: var(--font-sans); font-size: .9rem; outline: none;
+      transition: border-color .25s, background .25s, box-shadow .25s;
+      appearance: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #9aabca; }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--clr-primary);
+      background: rgba(255,255,255,1);
+      box-shadow: 0 0 0 3px rgba(24,84,248,.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select option { background: #fff; color: #0d1730; }
+    .form-success {
+      display: none; padding: 16px 20px; border-radius: var(--radius-sm);
+      background: rgba(46,125,82,.10); border: 1px solid rgba(46,125,82,.25);
+      color: #1a6640; font-size: .9rem; font-weight: 600;
+    }
+    .form-card {
+      padding: 40px 36px; border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.8);
+      border: 1px solid rgba(24,84,248,.14);
+      box-shadow: 0 8px 48px rgba(24,84,248,.1), 0 0 0 1px rgba(255,255,255,.6) inset;
+      -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+      position: relative; overflow: hidden;
+    }
+    .form-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--clr-primary) 0%, #7c3aed 50%, var(--clr-gold) 100%);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .form-card-title {
+      font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: #0d1730;
+      margin-bottom: 24px; padding-bottom: 20px;
+      border-bottom: 1px solid rgba(24,84,248,.12);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .form-card-title svg {
+      width: 22px; height: 22px; stroke: var(--clr-primary); stroke-width: 1.8;
+      fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0;
+    }
+    @keyframes deco-spin   { to { transform: rotate(360deg);  } }
+    @keyframes deco-spin-r { to { transform: rotate(-360deg); } }
+
+    /* Donar section */
+    .donar-section {
+      padding: 80px 0;
+      background: linear-gradient(160deg, var(--clr-surface) 0%, var(--clr-bg) 100%);
+    }
+    .donar-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    }
+    .donar-options { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+    .donar-option {
+      display: flex; align-items: center; gap: 18px; padding: 20px 22px;
+      border-radius: var(--radius-md); background: rgba(255,255,255,.03); border: 1px solid var(--clr-border);
+      transition: border-color .3s, background .3s, transform .3s var(--ease-out);
+    }
+    .donar-option:hover { border-color: rgba(249,200,70,.35); background: rgba(249,200,70,.05); transform: translateX(6px); }
+    .donar-opt-icon { font-size: 1.8rem; }
+    .donar-opt-text h4 { font-size: .93rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
+    .donar-opt-text p  { font-size: .82rem; color: var(--clr-muted); }
+    .donar-highlight {
+      padding: 40px 36px; border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(249,200,70,.12), rgba(201,151,42,.08));
+      border: 1px solid rgba(249,200,70,.25); text-align: center;
+    }
+    .donar-highlight h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 12px; }
+    .donar-highlight p  { color: var(--clr-muted); font-size: .9rem; line-height: 1.7; margin-bottom: 28px; }
+
+    @media(max-width:1024px){
+      .contact-grid{grid-template-columns:1fr;gap:48px}
+      .donar-inner{grid-template-columns:1fr;gap:32px}
+    }
+    @media(max-width:600px){
+      .form-row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          <div class="nav-brand-logos">
+            <img src="img/UNACH.png" alt="UNACH" />
+            <div class="nav-brand-sep"></div>
+            <img src="img/logofun.png" alt="Fundación UNACH" />
+          </div>
+          <div class="nav-name">Fundación UNACH <span>Universidad Autónoma de Chiapas</span></div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="quienes-somos.html">Quiénes somos</a></li>
+          <li><a href="beca.html">Beca</a></li>
+          <li><a href="#">Noticias</a></li>
+          <li><a href="contacto.html" class="active">Contacto</a></li>
+          <li><a href="asambleas.html">Asambleas</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a href="donar.html" class="nav-cta-donar">Donar</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="nav-mobile" id="navMobile" role="dialog" aria-modal="true">
+    <button class="nav-mobile-close" id="navClose" aria-label="Cerrar menú">✕</button>
+    <a href="index.html"           onclick="closeMob()">Inicio</a>
+    <a href="quienes-somos.html"   onclick="closeMob()">Quiénes somos</a>
+    <a href="beca.html"            onclick="closeMob()">Beca</a>
+    <a href="#"         onclick="closeMob()">Noticias</a>
+    <a href="contacto.html"        onclick="closeMob()">Contacto</a>
+    <a href="asambleas.html"       onclick="closeMob()">Asambleas</a>
+    <a href="donar.html" class="nav-mobile-donar" onclick="closeMob()">Donar</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container">
+      <span class="section-tag">Escríbenos</span>
+      <h1 class="section-title page-hero-title">
+        Estamos cerca de ti:<br /><span class="grad-text">Hablemos de Impacto</span>
+      </h1>
+      <p class="section-lead">
+        ¿Quieres ser Benefactor, solicitar información sobre becas o simplemente
+        conectar con nosotros? Estamos disponibles para atenderte.
+      </p>
+    </div>
+  </div>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Info -->
+        <div>
+          <span class="section-tag reveal">Encuéntranos</span>
+          <h2 class="section-title reveal reveal-delay-1">Información de contacto</h2>
+
+          <div class="contact-info-cards">
+            <div class="contact-info-card reveal reveal-delay-1">
+              <div class="c-icon">
+                <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div class="c-text">
+                <h4>Dirección</h4>
+                <p>Carr. Chicoasen 424, Los Laguitos INFONAVIT<br />29020 Tuxtla Gutiérrez, Chiapas, México</p>
+              </div>
+            </div>
+            <div class="contact-info-card reveal reveal-delay-2">
+              <div class="c-icon">
+                <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.44 2 2 0 0 1 3.58 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.47-1.47a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div class="c-text">
+                <h4>Teléfono</h4>
+                <a href="tel:9616139108">961 613 91-08</a>
+              </div>
+            </div>
+            <div class="contact-info-card reveal reveal-delay-3">
+              <div class="c-icon">
+                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div class="c-text">
+                <h4>Correo Electrónico</h4>
+                <a href="mailto:contacto@fundacionunach.org">contacto@fundacionunach.org</a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Form -->
+        <div class="form-card reveal">
+          <div class="form-card-title">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Envíanos un mensaje
+          </div>
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required />
+              </div>
+              <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" placeholder="Tu apellido" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Correo electrónico *</label>
+              <input type="email" id="email" name="email" placeholder="tu@correo.com" required />
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" placeholder="961 000 0000" />
+            </div>
+            <div class="form-group">
+              <label for="asunto">Asunto *</label>
+              <select id="asunto" name="asunto" required>
+                <option value="" disabled selected>Selecciona un asunto</option>
+                <option value="beca">Solicitud de Beca</option>
+                <option value="benefactor">Quiero ser Benefactor</option>
+                <option value="donacion">Realizar una Donación</option>
+                <option value="alianza">Alianza Estratégica</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="mensaje">Mensaje *</label>
+              <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos cómo podemos ayudarte…" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">
+              Enviar Mensaje
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+            </button>
+            <div class="form-success" id="formSuccess">
+              ✅ ¡Mensaje enviado con éxito! Te contactaremos pronto.
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Full-width map -->
+      <div class="map-embed-full reveal">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3820.4567!2d-93.1223!3d16.7523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ecd8e0f59d9ddd%3A0x8a0a2c1e1c1b2d3e!2sCarr.%20Chicoasen%20424%2C%20Los%20Laguitos%20INFONAVIT%2C%2029020%20Tuxtla%20Guti%C3%A9rrez%2C%20Chis.!5e0!3m2!1ses!2smx!4v1700000000000"
+          allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
+          title="Ubicación Fundación UNACH"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-brand-logos">
+            <img src="img/UNACH.png" alt="UNACH" /><div class="nav-brand-sep"></div><img src="img/logofun.png" alt="Fundación UNACH" />
+          </div>
+          <p style="color:var(--clr-gold)">Súmate para brindar una Educación de Calidad en Bienestar de tus hijos, amigos o familiares.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-btn" aria-label="Facebook">𝒻</a>
+            <a href="#" class="social-btn" aria-label="X">𝕏</a>
+            <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+            <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Navegación</h5>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="quienes-somos.html">Quiénes somos</a></li>
+            <li><a href="beca.html">Beca</a></li>
+            <li><a href="#">Noticias</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Recursos</h5>
+          <ul>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="asambleas.html">Asambleas</a></li>
+            <li><a href="contacto.html">Donar</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contacto</h5>
+          <ul>
+            <li><a href="tel:9615650519">961 565 0519</a></li>
+            <li><a href="mailto:contacto@fundación.org">contacto@fundación.org</a></li>
+            <li><span>Tuxtla Gutiérrez, Chis.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Fundación UNACH. Todos los derechos reservados.</p>
+        <div class="footer-badge"><span class="footer-badge-dot"></span>Chiapas, México</div>
+      </div>
+    </div>
+  </footer>
+
+  <button id="btt" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const btt    = document.getElementById('btt');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+      btt.classList.toggle('show', window.scrollY > 400);
+    }, { passive: true });
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    const hamburger = document.getElementById('hamburger');
+    const navMobile = document.getElementById('navMobile');
+    const navClose  = document.getElementById('navClose');
+    function openMob()  { hamburger.classList.add('open'); navMobile.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeMob() { hamburger.classList.remove('open'); navMobile.classList.remove('open'); document.body.style.overflow = ''; }
+    hamburger.addEventListener('click', () => hamburger.classList.contains('open') ? closeMob() : openMob());
+    navClose.addEventListener('click', closeMob);
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+    /* Form */
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nombre  = document.getElementById('nombre').value.trim();
+      const email   = document.getElementById('email').value.trim();
+      const asunto  = document.getElementById('asunto').value;
+      const mensaje = document.getElementById('mensaje').value.trim();
+      if (!nombre || !email || !asunto || !mensaje) return;
+      const success = document.getElementById('formSuccess');
+      success.style.display = 'block';
+      this.reset();
+      setTimeout(() => { success.style.display = 'none'; }, 6000);
+    });
+    /* Custom cursor */
+    (function(){
+      const dot  = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let rx = window.innerWidth/2, ry = window.innerHeight/2;
+      let dx = rx, dy = ry;
+      const lerp = (a,b,t) => a + (b-a)*t;
+      function tick(){
+        dx = lerp(dx, rx, 0.18);
+        dy = lerp(dy, ry, 0.18);
+        ring.style.transform = `translate(calc(${dx}px - 50%), calc(${dy}px - 50%))`;
+        requestAnimationFrame(tick);
+      }
+      tick();
+      document.addEventListener('mousemove', e => {
+        rx = e.clientX; ry = e.clientY;
+        dot.style.transform  = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+        dot.classList.remove('hidden'); ring.classList.remove('hidden');
+      });
+      document.addEventListener('mouseleave', () => { dot.classList.add('hidden'); ring.classList.add('hidden'); });
+      document.addEventListener('mouseenter', () => { dot.classList.remove('hidden'); ring.classList.remove('hidden'); });
+      document.querySelectorAll('a,button,[role="button"]').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+      });
+      document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+      document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-click'));
+    })();
+  </script>
+</body>
+</html>

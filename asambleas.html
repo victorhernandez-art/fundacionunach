@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Asambleas y Transparencia – Fundación UNACH. Documentos oficiales, actas, estatutos, informes anuales y estados financieros." />
+  <title>Asambleas – Fundación UNACH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Asambleas — single light-bg section ──────────────── */
+    #asambleas-main {
+      padding: 100px 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(24,84,248,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 55% at 90% 80%, rgba(201,151,42,.09) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(46,125,82,.04) 0%, transparent 60%),
+        linear-gradient(160deg, #f8f9ff 0%, #eef2fd 30%, #fdf8ee 65%, #f0f7f3 100%);
+      position: relative; overflow: hidden;
+    }
+    #asambleas-main .section-tag          { color: var(--clr-primary); }
+    #asambleas-main .section-tag::before  { background: var(--clr-primary); }
+    #asambleas-main .section-title        { color: #0d1730; }
+    #asambleas-main .section-lead         { color: #4a5880; }
+    #asambleas-main .grad-text {
+      background: linear-gradient(135deg, var(--clr-primary) 0%, #7c3aed 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    /* Decorative floating rings */
+    #asambleas-main::before {
+      content: ''; position: absolute;
+      width: 520px; height: 520px; border-radius: 50%;
+      border: 1px solid rgba(24,84,248,.06); top: -160px; right: -160px;
+      animation: asm-spin 60s linear infinite; pointer-events: none;
+    }
+    #asambleas-main::after {
+      content: ''; position: absolute;
+      width: 300px; height: 300px; border-radius: 50%;
+      border: 1px dashed rgba(201,151,42,.09); bottom: -90px; left: 4%;
+      animation: asm-spin-r 44s linear infinite; pointer-events: none;
+    }
+    @keyframes asm-spin   { to { transform: rotate(360deg);  } }
+    @keyframes asm-spin-r { to { transform: rotate(-360deg); } }
+
+    /* Section header */
+    .asm-head {
+      text-align: center; max-width: 620px; margin: 0 auto 72px;
+      position: relative; z-index: 1;
+    }
+    .asm-head .section-lead { margin-top: 14px; }
+
+    /* Two-column grid */
+    .asm-grid { display: none; }
+
+    /* ── Left: info cards + CTA ── */
+    .asm-cards { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+    .asm-card {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 20px 22px; border-radius: var(--radius-md);
+      background: rgba(255,255,255,.72); border: 1px solid rgba(24,84,248,.12);
+      box-shadow: 0 4px 20px rgba(24,84,248,.07);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      transition: transform .3s var(--ease-out), box-shadow .3s;
+    }
+    .asm-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(24,84,248,.12); }
+    .asm-card-icon {
+      width: 46px; height: 46px; flex-shrink: 0; border-radius: 12px;
+      background: rgba(24,84,248,.08); border: 1px solid rgba(24,84,248,.15);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .asm-card-icon svg { width: 20px; height: 20px; stroke: var(--clr-primary); stroke-width: 1.85; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .asm-card-icon.gold  { background: rgba(249,200,70,.12); border-color: rgba(249,200,70,.25); }
+    .asm-card-icon.gold svg  { stroke: #c9972a; }
+    .asm-card-icon.green { background: rgba(46,125,82,.1);  border-color: rgba(46,125,82,.22); }
+    .asm-card-icon.green svg { stroke: #2e7d52; }
+    .asm-card-body h4 { font-size: .88rem; font-weight: 700; color: #0d1730; margin-bottom: 5px; }
+    .asm-card-body p  { font-size: .79rem; color: #4a5880; line-height: 1.6; }
+
+    /* Download button */
+    .asm-dl-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 30px; border-radius: 100px;
+      background: var(--clr-primary); color: #fff;
+      font-size: .9rem; font-weight: 700; letter-spacing: .02em;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(24,84,248,.28);
+      transition: transform .3s var(--ease-out), box-shadow .3s;
+    }
+    .asm-dl-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(24,84,248,.4); }
+    .asm-dl-btn svg { width: 18px; height: 18px; stroke: #fff; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── Right: PDF viewer card ── */
+    .asm-pdf-wrap {
+      border-radius: var(--radius-lg); overflow: hidden;
+      border: 1px solid rgba(24,84,248,.12);
+      box-shadow: 0 8px 48px rgba(24,84,248,.1), 0 0 0 1px rgba(255,255,255,.7) inset;
+      background: #fff; position: relative; z-index: 1;
+      max-width: 1000px; margin: 0 auto;
+    }
+    .asm-pdf-bar {
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-primary) 0%, #7c3aed 50%, var(--clr-gold) 100%);
+    }
+    .asm-pdf-wrap iframe { width: 100%; height: 860px; border: none; display: block; }
+    .asm-pdf-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 20px; background: rgba(248,249,255,.96);
+      border-top: 1px solid rgba(24,84,248,.08); gap: 12px;
+    }
+    .asm-pdf-fname {
+      display: flex; align-items: center; gap: 9px;
+    }
+    .asm-pdf-fname svg { width: 17px; height: 17px; stroke: var(--clr-primary); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .asm-pdf-fname span { font-size: .79rem; color: #4a5880; font-weight: 500; }
+    .asm-pdf-open {
+      font-size: .79rem; color: var(--clr-primary); font-weight: 700;
+      text-decoration: none; display: flex; align-items: center; gap: 5px; white-space: nowrap;
+    }
+    .asm-pdf-open:hover { text-decoration: underline; }
+    .asm-pdf-open svg { width: 13px; height: 13px; stroke: var(--clr-primary); stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .asm-grid { grid-template-columns: 1fr; gap: 36px; }
+      .asm-pdf-wrap iframe { height: 600px; }
+    }
+    @media (max-width: 640px) {
+      .asm-pdf-wrap iframe { height: 420px; }
+      .asm-dl-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          <div class="nav-brand-logos">
+            <img src="img/UNACH.png" alt="UNACH" />
+            <div class="nav-brand-sep"></div>
+            <img src="img/logofun.png" alt="Fundación UNACH" />
+          </div>
+          <div class="nav-name">Fundación UNACH <span>Universidad Autónoma de Chiapas</span></div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="quienes-somos.html">Quiénes somos</a></li>
+          <li><a href="beca.html">Beca</a></li>
+          <li><a href="#">Noticias</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="asambleas.html" class="active">Asambleas</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a href="donar.html" class="nav-cta-donar">Donar</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="nav-mobile" id="navMobile" role="dialog" aria-modal="true">
+    <button class="nav-mobile-close" id="navClose" aria-label="Cerrar menú">✕</button>
+    <a href="index.html"           onclick="closeMob()">Inicio</a>
+    <a href="quienes-somos.html"   onclick="closeMob()">Quiénes somos</a>
+    <a href="beca.html"            onclick="closeMob()">Beca</a>
+    <a href="#"         onclick="closeMob()">Noticias</a>
+    <a href="contacto.html"        onclick="closeMob()">Contacto</a>
+    <a href="asambleas.html"       onclick="closeMob()">Asambleas</a>
+    <a href="donar.html" class="nav-mobile-donar" onclick="closeMob()">Donar</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container">
+      <span class="section-tag">Rendición de Cuentas</span>
+      <h1 class="section-title page-hero-title">
+        Asamblea General<br /><span class="grad-text">Extraordinaria de Asociados</span>
+      </h1>
+      <p style="margin-top:10px; font-size:.95rem; color:var(--clr-gold); font-weight:600; letter-spacing:.04em;">Sesión Extraordinaria 1.2026</p>
+      <p class="section-lead">
+        Convocatoria oficial y documentación de las asambleas de la Fundación UNACH.
+      </p>
+    </div>
+  </div>
+
+  <!-- ASAMBLEAS MAIN -->
+  <section id="asambleas-main">
+    <div class="container">
+
+      <!-- Download button -->
+      <div style="text-align:center; margin-bottom:32px; position:relative; z-index:1;">
+        <a href="img/INVITACION.pdf" download class="asm-dl-btn reveal">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar Invitación PDF
+        </a>
+      </div>
+
+      <!-- PDF viewer -->
+      <div class="asm-pdf-wrap reveal reveal-delay-1">
+          <div class="asm-pdf-bar"></div>
+          <iframe
+            src="img/INVITACION.pdf"
+            title="Invitación a la Asamblea General — Fundación UNACH"
+          ></iframe>
+          <div class="asm-pdf-footer">
+            <div class="asm-pdf-fname">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>INVITACION.pdf — Fundación UNACH</span>
+            </div>
+            <a href="img/INVITACION.pdf" target="_blank" rel="noopener noreferrer" class="asm-pdf-open">
+              Abrir en nueva pestaña
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-brand-logos">
+            <img src="img/UNACH.png" alt="UNACH" /><div class="nav-brand-sep"></div><img src="img/logofun.png" alt="Fundación UNACH" />
+          </div>
+          <p style="color:var(--clr-gold)">Súmate para brindar una Educación de Calidad en Bienestar de tus hijos, amigos o familiares.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-btn" aria-label="Facebook">𝒻</a>
+            <a href="#" class="social-btn" aria-label="X">𝕏</a>
+            <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+            <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Navegación</h5>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="quienes-somos.html">Quiénes somos</a></li>
+            <li><a href="beca.html">Beca</a></li>
+            <li><a href="#">Noticias</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Recursos</h5>
+          <ul>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="asambleas.html">Asambleas</a></li>
+            <li><a href="contacto.html">Donar</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contacto</h5>
+          <ul>
+            <li><a href="tel:9615650519">961 565 0519</a></li>
+            <li><a href="mailto:contacto@fundación.org">contacto@fundación.org</a></li>
+            <li><span>Tuxtla Gutiérrez, Chis.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Fundación UNACH. Todos los derechos reservados.</p>
+        <div class="footer-badge"><span class="footer-badge-dot"></span>Chiapas, México</div>
+      </div>
+    </div>
+  </footer>
+
+  <button id="btt" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const btt    = document.getElementById('btt');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+      btt.classList.toggle('show', window.scrollY > 400);
+    }, { passive: true });
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    const hamburger = document.getElementById('hamburger');
+    const navMobile = document.getElementById('navMobile');
+    const navClose  = document.getElementById('navClose');
+    function openMob()  { hamburger.classList.add('open'); navMobile.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeMob() { hamburger.classList.remove('open'); navMobile.classList.remove('open'); document.body.style.overflow = ''; }
+    hamburger.addEventListener('click', () => hamburger.classList.contains('open') ? closeMob() : openMob());
+    navClose.addEventListener('click', closeMob);
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+    /* Custom cursor */
+    (function(){
+      const dot  = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let rx = window.innerWidth/2, ry = window.innerHeight/2;
+      let dx = rx, dy = ry;
+      const lerp = (a,b,t) => a + (b-a)*t;
+      function tick(){
+        dx = lerp(dx, rx, 0.18);
+        dy = lerp(dy, ry, 0.18);
+        ring.style.transform = `translate(calc(${dx}px - 50%), calc(${dy}px - 50%))`;
+        requestAnimationFrame(tick);
+      }
+      tick();
+      document.addEventListener('mousemove', e => {
+        rx = e.clientX; ry = e.clientY;
+        dot.style.transform  = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+        dot.classList.remove('hidden'); ring.classList.remove('hidden');
+      });
+      document.addEventListener('mouseleave', () => { dot.classList.add('hidden'); ring.classList.add('hidden'); });
+      document.addEventListener('mouseenter', () => { dot.classList.remove('hidden'); ring.classList.remove('hidden'); });
+      document.querySelectorAll('a,button,[role="button"]').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+      });
+      document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+      document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-click'));
+    })();
+  </script>
+</body>
+</html>
