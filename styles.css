@@ -43,6 +43,7 @@ body {
 
 img { max-width: 100%; display: block; }
 a   { color: inherit; text-decoration: none; }
+p   { text-align: justify; }
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--clr-bg); }
@@ -134,6 +135,16 @@ body.cursor-click #cursor-ring {
     radial-gradient(ellipse 50% 50% at 20% 70%, rgba(46,125,82,.10) 0%, transparent 60%);
   pointer-events: none;
 }
+
+/* Page hero entrance animations */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+.page-hero .section-tag         { animation: fadeSlideUp .8s var(--ease-out) .15s both; }
+.page-hero .section-title       { animation: fadeSlideUp .9s var(--ease-out) .30s both; }
+.page-hero .section-lead        { animation: fadeSlideUp .9s var(--ease-out) .45s both; }
+.page-hero > .container > p     { animation: fadeSlideUp .9s var(--ease-out) .45s both; }
 
 /* Reveal animation */
 .reveal { opacity: 0; transform: translateY(32px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }

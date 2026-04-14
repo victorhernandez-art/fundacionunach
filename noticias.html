@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="img/ico.png" />
+  <meta name="description" content="Noticias y eventos de la Fundación UNACH – Conoce los momentos más destacados de nuestra comunidad." />
+  <title>Noticias – Fundación UNACH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Noticias Section ── */
+    #noticias {
+      padding: 90px 0 100px;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(24,84,248,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 55% at 90% 80%, rgba(201,151,42,.09) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(46,125,82,.04) 0%, transparent 60%),
+        linear-gradient(160deg, #f8f9ff 0%, #eef2fd 30%, #fdf8ee 65%, #f0f7f3 100%);
+      color: var(--clr-bg);
+      position: relative;
+    }
+    #noticias .section-tag        { color: var(--clr-primary); }
+    #noticias .section-tag::before{ background: var(--clr-primary); }
+    #noticias .section-title      { color: #0d1730; }
+    #noticias .section-lead       { color: #4a5880; }
+
+    /* Carousel */
+    .events-carousel {
+      position: relative;
+      padding: 0 60px;
+      margin-top: 48px;
+    }
+    .events-track  { overflow: hidden; border-radius: var(--radius-md); }
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      transition: transform 0.5s var(--ease-out);
+    }
+
+    /* Nav buttons */
+    .events-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #fff;
+      border: 2px solid rgba(24,84,248,.3);
+      border-radius: 50%;
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--clr-primary);
+      cursor: pointer;
+      transition: all .3s var(--ease-out);
+      z-index: 10;
+      box-shadow: 0 2px 12px rgba(24,84,248,.15);
+    }
+    .events-nav-btn:hover {
+      background: var(--clr-primary);
+      color: #fff;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 4px 20px rgba(24,84,248,.35);
+    }
+    .events-nav-btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+      transform: translateY(-50%);
+      background: #f0f0f0;
+      border-color: rgba(24,84,248,.1);
+      color: #aaa;
+    }
+    .events-nav-btn svg { width: 20px; height: 20px; stroke-width: 2.5; }
+    #eventsPrevBtn { left: 0; }
+    #eventsNextBtn { right: 0; }
+
+    /* Cards */
+    .news-card {
+      background: #fff;
+      border: 1px solid rgba(24,84,248,.1);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform .3s var(--ease-out), box-shadow .3s, border-color .3s;
+      cursor: pointer;
+      display: flex; flex-direction: column;
+      box-shadow: 0 4px 24px rgba(24,84,248,.08);
+    }
+    .news-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 14px 44px rgba(24,84,248,.15);
+      border-color: var(--clr-primary);
+    }
+    .news-card-image-container {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+    .news-card-image {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .5s var(--ease-out);
+    }
+    .news-card:hover .news-card-image { transform: scale(1.08); }
+
+    .news-card-category {
+      position: absolute;
+      top: 14px; left: 14px;
+      background: var(--clr-primary);
+      color: #fff;
+      font-size: .68rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 99px;
+    }
+
+    .news-card-content {
+      padding: 24px 22px;
+      display: flex; flex-direction: column;
+      flex: 1;
+    }
+    .news-card-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem; font-weight: 700;
+      color: #0d1730;
+      line-height: 1.35;
+      margin-bottom: 10px;
+      flex: 1;
+      transition: color .3s;
+    }
+    .news-card:hover .news-card-title { color: var(--clr-primary); }
+
+    .news-card-meta {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .78rem; color: #4a5880;
+      margin-bottom: 14px;
+    }
+    .news-card-meta svg { flex-shrink: 0; }
+
+    .news-summary {
+      font-size: .88rem;
+      color: #4a5880;
+      line-height: 1.65;
+      margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex-grow: 1;
+    }
+
+    .news-card-footer {
+      display: flex; justify-content: flex-end;
+      padding-top: 16px;
+      border-top: 1px solid rgba(24,84,248,.1);
+    }
+    .news-more {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--clr-primary);
+      font-size: .82rem; font-weight: 600;
+      padding: 7px 16px;
+      border: 2px solid var(--clr-primary);
+      border-radius: 99px;
+      text-decoration: none !important;
+      transition: background .25s, color .25s, transform .25s;
+      white-space: nowrap;
+    }
+    .news-more:hover {
+      background: var(--clr-primary); color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(24,84,248,.3);
+    }
+    .news-more svg { transition: transform .3s; }
+    .news-more:hover svg { transform: translateX(3px); }
+
+    .news-loading {
+      text-align: center;
+      color: #4a5880;
+      padding: 4rem;
+      font-size: 1rem;
+    }
+
+    /* ── Event Modal ── */
+    .event-modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.9);
+      display: none; align-items: flex-start; justify-content: center;
+      z-index: 2000;
+      overflow-y: auto;
+    }
+    .event-modal-overlay.active { display: flex; }
+    .event-modal {
+      background: #fff; width: 100%; min-height: 100vh;
+      position: relative; display: flex; flex-direction: column;
+    }
+    .event-modal-close {
+      position: fixed; top: 1rem; right: 1rem;
+      font-size: 1.6rem; width: 46px; height: 46px;
+      background: rgba(255,255,255,.95);
+      border-radius: 50%;
+      box-shadow: 0 4px 14px rgba(0,0,0,.2);
+      color: #0d1730; border: none; cursor: pointer;
+      z-index: 2001;
+      transition: all .3s; display: flex; align-items: center; justify-content: center;
+    }
+    .event-modal-close:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,.3); }
+
+    .event-modal-header {
+      padding: 3.5rem 2rem 2rem;
+      background: var(--clr-primary);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .event-modal-header .container { max-width: 900px; }
+    .event-modal-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800; color: #fff; margin: 0;
+    }
+    .event-modal-date {
+      color: rgba(255,255,255,.8);
+      font-size: 1rem; font-weight: 500;
+      margin-top: 12px;
+    }
+    .event-modal-body {
+      padding: 3rem 2rem;
+      background: #fff;
+      flex: 1; max-width: 900px;
+      margin: 0 auto; width: 100%;
+    }
+    .event-modal-content {
+      color: #2a3660;
+      line-height: 1.85;
+      margin-bottom: 3rem;
+      font-size: .98rem;
+    }
+    .event-modal-content p { margin-bottom: 1em; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .events-carousel { padding: 0 44px; }
+      .events-grid     { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .events-carousel { padding: 0 36px; }
+      .events-grid     { grid-template-columns: 1fr; }
+      .events-nav-btn  { width: 38px; height: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Custom cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          <div class="nav-brand-logos">
+            <img src="img/UNACH.png" alt="UNACH" />
+            <div class="nav-brand-sep"></div>
+            <img src="img/logofun.png" alt="Fundación UNACH" />
+          </div>
+          <div class="nav-name">Fundación UNACH <span>Universidad Autónoma de Chiapas</span></div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="quienes-somos.html">Quiénes somos</a></li>
+          <li><a href="beca.html">Beca</a></li>
+          <li><a href="noticias.html" class="active">Noticias</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="asambleas.html">Asambleas</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a href="donar.html" class="nav-cta-donar">Donar</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="nav-mobile" id="navMobile" role="dialog" aria-modal="true">
+    <button class="nav-mobile-close" id="navClose" aria-label="Cerrar menú">✕</button>
+    <a href="index.html"           onclick="closeMob()">Inicio</a>
+    <a href="quienes-somos.html"   onclick="closeMob()">Quiénes somos</a>
+    <a href="beca.html"            onclick="closeMob()">Beca</a>
+    <a href="noticias.html"        onclick="closeMob()">Noticias</a>
+    <a href="contacto.html"        onclick="closeMob()">Contacto</a>
+    <a href="asambleas.html"       onclick="closeMob()">Asambleas</a>
+    <a href="donar.html" class="nav-mobile-donar" onclick="closeMob()">Donar</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container">
+      <span class="section-tag">Comunidad &amp; Eventos</span>
+      <h1 class="section-title page-hero-title">
+        Noticias y<br /><span class="grad-text">Eventos Realizados</span>
+      </h1>
+      <p class="section-lead">
+        Revive los momentos más destacados de nuestra comunidad y los logros alcanzados
+        en cada uno de nuestros programas y actividades.
+      </p>
+    </div>
+  </div>
+
+  <!-- NOTICIAS SECTION -->
+  <section id="noticias">
+    <div class="container">
+      <span class="section-tag reveal">Últimas Publicaciones</span>
+      <h2 class="section-title reveal reveal-delay-1">
+        Lo que hemos <span class="grad-text" style="background:linear-gradient(135deg,var(--clr-primary) 0%,#7c3aed 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">logrado juntos</span>
+      </h2>
+      <p class="section-lead reveal reveal-delay-2" style="color:#4a5880;margin-bottom:0;max-width:620px;">
+        Cada evento, cada noticia es un paso más hacia nuestro objetivo de transformar
+        la educación en Chiapas.
+      </p>
+
+      <!-- Carousel -->
+      <div class="events-carousel reveal reveal-delay-3">
+        <button class="events-nav-btn" id="eventsPrevBtn" aria-label="Anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18L9 12L15 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="events-track" id="eventsTrack">
+          <div class="events-grid" id="eventsGrid">
+            <div class="news-loading">Cargando noticias…</div>
+          </div>
+        </div>
+
+        <button class="events-nav-btn" id="eventsNextBtn" aria-label="Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18L15 12L9 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENT MODAL -->
+  <div class="event-modal-overlay" id="eventModal">
+    <div class="event-modal">
+      <button class="event-modal-close" id="eventModalClose" aria-label="Cerrar">✕</button>
+      <div class="event-modal-header">
+        <div class="container">
+          <h2 class="event-modal-title" id="eventModalTitle">Título del Evento</h2>
+          <div class="event-modal-date"  id="eventModalDate">Fecha del evento</div>
+        </div>
+      </div>
+      <div class="event-modal-body">
+        <div class="event-modal-content" id="eventModalContent">Contenido…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-brand-logos">
+            <img src="img/UNACH.png" alt="UNACH" /><div class="nav-brand-sep"></div><img src="img/logofun.png" alt="Fundación UNACH" />
+          </div>
+          <p style="color:var(--clr-gold)">Súmate para brindar una Educación de Calidad en Bienestar de tus hijos, amigos o familiares.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-btn" aria-label="Facebook">𝒻</a>
+            <a href="#" class="social-btn" aria-label="X">𝕏</a>
+            <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+            <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Navegación</h5>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="quienes-somos.html">Quiénes somos</a></li>
+            <li><a href="beca.html">Beca</a></li>
+            <li><a href="noticias.html">Noticias</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Recursos</h5>
+          <ul>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="asambleas.html">Asambleas</a></li>
+            <li><a href="donar.html">Donar</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contacto</h5>
+          <ul>
+            <li><a href="tel:9615650519">961 565 0519</a></li>
+            <li><a href="mailto:contacto@fundación.org">contacto@fundación.org</a></li>
+            <li><span>Tuxtla Gutiérrez, Chis.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Fundación UNACH. Todos los derechos reservados.</p>
+        <div class="footer-badge"><span class="footer-badge-dot"></span>Chiapas, México</div>
+      </div>
+    </div>
+  </footer>
+
+  <button id="btt" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <script>
+    /* ── Navbar / BTT / Mobile ── */
+    const navbar = document.getElementById('navbar');
+    const btt    = document.getElementById('btt');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+      btt.classList.toggle('show', window.scrollY > 400);
+    }, { passive: true });
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    const hamburger = document.getElementById('hamburger');
+    const navMobile = document.getElementById('navMobile');
+    const navClose  = document.getElementById('navClose');
+    function openMob()  { hamburger.classList.add('open'); navMobile.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeMob() { hamburger.classList.remove('open'); navMobile.classList.remove('open'); document.body.style.overflow = ''; }
+    hamburger.addEventListener('click', () => hamburger.classList.contains('open') ? closeMob() : openMob());
+    navClose.addEventListener('click', closeMob);
+
+    /* ── Reveal ── */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── Events Carousel ── */
+    class EventsCarousel {
+      constructor() {
+        this.grid       = document.getElementById('eventsGrid');
+        this.prevBtn    = document.getElementById('eventsPrevBtn');
+        this.nextBtn    = document.getElementById('eventsNextBtn');
+        this.currentIdx = 0;
+        this.events     = [];
+        this.perView    = 3;
+        this.init();
+      }
+
+      async init() {
+        try {
+          await this.loadEvents();
+          this.updatePerView();
+          window.addEventListener('resize', () => this.updatePerView());
+          this.prevBtn.addEventListener('click', () => this.prev());
+          this.nextBtn.addEventListener('click', () => this.next());
+          this.setupModal();
+        } catch (err) {
+          this.grid.innerHTML = '<div class="news-loading">No se pudieron cargar las noticias.</div>';
+        }
+      }
+
+      async loadEvents() {
+        /* Demo data — replace with real API call when available */
+        this.events = [
+          {
+            id: 1,
+            title: 'Entrega de Becas Fundación UNACH 2024',
+            date: '2024-11-15',
+            category: 'Beca',
+            summary: 'Se realizó la entrega oficial de becas a más de 6,500 estudiantes de la Universidad Autónoma de Chiapas, beneficiando a jóvenes de todos los campus.',
+            body: '<p>La Fundación UNACH llevó a cabo la ceremonia de entrega de becas correspondiente al ciclo escolar 2024, donde más de 6,500 estudiantes recibieron el beneficio de la exención total de reinscripción.</p><p>El evento contó con la presencia de autoridades universitarias, benefactores y estudiantes beneficiados, quienes compartieron sus testimonios de superación.</p>',
+            cover: 'img/1f.jpg'
+          },
+          {
+            id: 2,
+            title: 'Foro de Benefactores y Donantes 2024',
+            date: '2024-10-08',
+            category: 'Evento',
+            summary: 'Reunimos a nuestros principales benefactores para presentar el impacto social generado por sus aportaciones y fortalecer el vínculo con la comunidad UNACH.',
+            body: '<p>El Foro de Benefactores 2024 fue un espacio de encuentro entre la Fundación UNACH y quienes hacen posible sus programas. Se presentaron los resultados del año y se anunciaron nuevas metas para el ciclo siguiente.</p>',
+            cover: 'img/2f.jpg'
+          },
+          {
+            id: 3,
+            title: 'Asamblea General Extraordinaria de Asociados',
+            date: '2024-09-20',
+            category: 'Asamblea',
+            summary: 'Sesión extraordinaria donde se presentaron los informes financieros, se aprobaron nuevas directrices y se ratificó el compromiso institucional con la educación.',
+            body: '<p>La Asamblea General Extraordinaria se celebró con la participación de todos los asociados activos de la Fundación. Se revisaron los estados financieros y se aprobaron las modificaciones al reglamento interno para el próximo ciclo.</p>',
+            cover: 'img/3f.jpg'
+          },
+          {
+            id: 4,
+            title: 'Convenio con Sector Empresarial Chiapaneco',
+            date: '2024-08-05',
+            category: 'Alianza',
+            summary: 'La Fundación UNACH firmó convenios de colaboración con empresas del sector privado para ampliar los recursos destinados a becas estudiantiles.',
+            body: '<p>En un acto solemne, la Fundación UNACH firmó convenios de colaboración con varias empresas del sector privado de Chiapas, comprometiendo nuevos recursos para el programa de becas.</p>',
+            cover: 'img/1f.jpg'
+          },
+          {
+            id: 5,
+            title: 'Campaña de Recaudación "Educa Chiapas"',
+            date: '2024-07-12',
+            category: 'Campaña',
+            summary: 'Lanzamos nuestra campaña anual de recaudación de fondos con el objetivo de ampliar la cobertura del programa de becas Fundación UNACH.',
+            body: '<p>La campaña "Educa Chiapas" es nuestra iniciativa anual para acercar recursos de la filantropía privada a los estudiantes que más lo necesitan. Este año superamos la meta planteada gracias al apoyo de la sociedad chiapaneca.</p>',
+            cover: 'img/2f.jpg'
+          },
+          {
+            id: 6,
+            title: 'Reconocimiento a Estudiantes Sobresalientes',
+            date: '2024-06-28',
+            category: 'Ceremonia',
+            summary: 'Ceremonia de reconocimiento a los estudiantes becados que destacaron académicamente durante el ciclo escolar, reafirmando el compromiso de la Fundación.',
+            body: '<p>La Fundación UNACH celebró una emotiva ceremonia de reconocimiento a los estudiantes becados que obtuvieron los más altos promedios del ciclo. Un momento que reafirma el valor del esfuerzo y la educación.</p>',
+            cover: 'img/3f.jpg'
+          }
+        ];
+        this.render();
+      }
+
+      render() {
+        const slice = this.events.slice(this.currentIdx, this.currentIdx + this.perView);
+        this.grid.innerHTML = '';
+        slice.forEach(item => this.grid.appendChild(this.createCard(item)));
+        this.updateButtons();
+      }
+
+      createCard(item) {
+        const card = document.createElement('article');
+        card.className = 'news-card';
+        const date = this.formatDate(item.date);
+        const cover = item.cover || 'img/1f.jpg';
+
+        card.innerHTML = `
+          <div class="news-card-image-container">
+            <img src="${cover}" alt="${this.esc(item.title)}" class="news-card-image" loading="lazy" />
+            <span class="news-card-category">${this.esc(item.category)}</span>
+          </div>
+          <div class="news-card-content">
+            <h3 class="news-card-title">${this.esc(item.title)}</h3>
+            <div class="news-card-meta">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>${date}</span>
+            </div>
+            <p class="news-summary">${this.esc(item.summary)}</p>
+            <div class="news-card-footer">
+              <a href="#" class="news-more" data-id="${item.id}">
+                Ver más
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M19 12L12 5M19 12L12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        `;
+
+        card.querySelector('.news-more').addEventListener('click', e => {
+          e.preventDefault();
+          this.openModal(item);
+        });
+        card.addEventListener('click', e => {
+          if (!e.target.closest('.news-more')) this.openModal(item);
+        });
+        return card;
+      }
+
+      setupModal() {
+        const overlay  = document.getElementById('eventModal');
+        const closeBtn = document.getElementById('eventModalClose');
+        closeBtn.addEventListener('click', () => this.closeModal());
+        overlay.addEventListener('click', e => { if (e.target === overlay) this.closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') this.closeModal(); });
+      }
+
+      openModal(item) {
+        document.getElementById('eventModalTitle').textContent   = item.title;
+        document.getElementById('eventModalDate').textContent    = this.formatDate(item.date);
+        document.getElementById('eventModalContent').innerHTML   = item.body || `<p>${item.summary}</p>`;
+        document.getElementById('eventModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      closeModal() {
+        document.getElementById('eventModal').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      prev() {
+        if (this.currentIdx > 0) { this.currentIdx--; this.render(); }
+      }
+      next() {
+        const max = Math.max(0, this.events.length - this.perView);
+        if (this.currentIdx < max) { this.currentIdx++; this.render(); }
+      }
+      updateButtons() {
+        const max = Math.max(0, this.events.length - this.perView);
+        this.prevBtn.disabled = this.currentIdx === 0;
+        this.nextBtn.disabled = this.currentIdx >= max;
+      }
+      updatePerView() {
+        const w = window.innerWidth;
+        this.perView = w <= 600 ? 1 : w <= 900 ? 2 : 3;
+        this.currentIdx = Math.min(this.currentIdx, Math.max(0, this.events.length - this.perView));
+        this.render();
+      }
+
+      formatDate(str) {
+        if (!str) return 'Fecha por definir';
+        try {
+          const d = new Date(str + 'T00:00:00');
+          if (isNaN(d)) return 'Fecha por definir';
+          return d.toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' });
+        } catch { return 'Fecha por definir'; }
+      }
+      esc(t) {
+        if (!t) return '';
+        const d = document.createElement('div');
+        d.textContent = t;
+        return d.innerHTML;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => new EventsCarousel());
+
+    /* ── Custom cursor ── */
+    (function(){
+      const dot  = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let rx = window.innerWidth/2, ry = window.innerHeight/2;
+      let dx = rx, dy = ry;
+      const lerp = (a,b,t) => a + (b-a)*t;
+      function tick(){
+        dx = lerp(dx, rx, 0.18);
+        dy = lerp(dy, ry, 0.18);
+        ring.style.transform = `translate(calc(${dx}px - 50%), calc(${dy}px - 50%))`;
+        requestAnimationFrame(tick);
+      }
+      tick();
+      document.addEventListener('mousemove', e => {
+        rx = e.clientX; ry = e.clientY;
+        dot.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+        dot.classList.remove('hidden'); ring.classList.remove('hidden');
+      });
+      document.addEventListener('mouseleave', () => { dot.classList.add('hidden'); ring.classList.add('hidden'); });
+      document.addEventListener('mouseenter', () => { dot.classList.remove('hidden'); ring.classList.remove('hidden'); });
+      document.querySelectorAll('a,button,[role="button"]').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+      });
+      document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+      document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-click'));
+    })();
+  </script>
+</body>
+</html>
